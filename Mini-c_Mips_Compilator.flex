@@ -29,6 +29,8 @@ Int* = Int"*"
 Char* = Char"*"
 ConstChar = "'"[a-zA-Z]"'"
 ConstStr = \"(\(.|\n)|[{({LETRA}|{DIGITO}|{NUM}}\\"\n])*\"
+ScanF = scanf"(" ")"
+PrintF = printf"(" ")"
 
 <YYINITIAL> {
        {For}                                {System.out.print("<For>")}
