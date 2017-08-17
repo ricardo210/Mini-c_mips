@@ -6,7 +6,7 @@
 %column
 %class Mini-c_Mips_Compilator
 
-OPREL = ">"|"<"|">="|"<="|"<>"
+OPREL = ">"|"<"|">="|"<="|"!="|"=="
 ASIG = "="
 OPMULT = "*"|"/"
 OPSUM = "+"|"-"
@@ -16,42 +16,40 @@ LETRA = [a-zA-Z]
 ID = {LETRA}(_|{DIGITO}|{LETRA})*
 PuntoComa = ";"
 TAB = "\t"
+NewLine = [\n]+
 FinLinea = \r|\n|\r\n
 Espacio = {FinLinea}
-ComentarioP = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+ComentarioP = "/" [^] ~"/" | "/" "*"+ "/"
 ComentarioL = "//" ({LETRA}|{DIGITO}|{NUM}|" ")* {FinLinea}?
 For = For
 If = If
 While = While
 Int = Int
 Char = Char
-Int* = Int"*"
-Char* = Char"*"
+IntP = Int"*"
+CharP = Char"*"
 ConstChar = "'"[a-zA-Z]"'"
-ConstStr = \"(\(.|\n)|[{({LETRA}|{DIGITO}|{NUM}}\\"\n])*\"
-ScanF = scanf"(" ")"
-PrintF = printf"(" ")"
+ConstStr = \"[^\n\"]*\"({Espacio}"&_"{NewLine}({Espacio}|\t)*\"[^\n\"]*\")*
 
+
+%%
 <YYINITIAL> {
-       {For}                                {System.out.print("<For>")}
-       {If}                                 {System.out.print("<If>")}
-       {While}                              {System.out.print("<While>")}
-       {Int}                                {System.out.print("<Integer>")}
-       {Char}                               {System.out.print("<Char>")}
-       {Int*}                               {System.out.print("<Integer*>")}
-       {Char*}                              {System.out.print("<char*>")}
-       {ID}                                 {System.out.print("<ID,"+yytext()+">")}
-       {ConstChar}                          {System.out.print("<ConstChar,"+yytext()+">")}
-       {ConstStr}                           {System.out.print("<ConstStr,"+yytext()+">")}
-       {}                                   {}
-       {}                                   {}
-       {ASIG}                               {System.out.print("<ASIG,"+yytext()+">")}
-       {NUM}                                {System.out.print("<NUM,"+yytext()+">")}
-       {OPSUM}                              {System.out.print("<OPSUM,"+yytext()+">")}
-       {OPMULT}                             {System.out.print("<OPMULT,"+yytext()+">")}
-       {OPREL}                              {System.out.print("<OPREL,"+yytext()+">")}
-       {ComentarioP}                        {System.out.print("<comentarioP,"+yytext()+">")}
-       {ComentarioP}                        {System.out.print("<comentarioL,"+yytext()+">")}
-       {PuntoComa}                          {{System.out.print("<PuntoComa>")}
+       {For}                                {System.out.print("<For>");}
+       {If}                                 {System.out.print("<If>");}
+       {While}                              {System.out.print("<While>");}
+       {Int}                                {System.out.print("<Integer>");}
+       {Char}                               {System.out.print("<Char>");}
+       {IntP}                               {System.out.print("<IntegerP>");}
+       {CharP}                              {System.out.print("<charP>");}
+       {ID}                                 {System.out.print("<ID,"+yytext()+">");}
+       {ConstChar}                          {System.out.print("<ConstChar,"+yytext()+">");}
+       {ASIG}                               {System.out.print("<ASIG,"+yytext()+">");}
+       {NUM}                                {System.out.print("<NUM,"+yytext()+">");}
+       {OPSUM}                              {System.out.print("<OPSUM,"+yytext()+">");}
+       {OPMULT}                             {System.out.print("<OPMULT,"+yytext()+">");}
+       {OPREL}                              {System.out.print("<OPREL,"+yytext()+">");}
+       {ComentarioP}                        {System.out.print("<comentarioP,"+yytext()+">");}
+       {ComentarioL}                        {System.out.print("<comentarioL,"+yytext()+">");}
+       {PuntoComa}                          {System.out.print("<PuntoComa>");}
         .                                   {}
 }
